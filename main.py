@@ -1,6 +1,3 @@
-#typedef struct {
-#	name_task,
-#}
 
 class TasksDB_t: #экземпляр этого класса будет один на всю программу (если я не захочу одновременно открывать несколько БД)
 	def __init__(self):
@@ -19,8 +16,16 @@ class Task:
 		self.isEveryday = isEveryday
 		self.reward = reward
 	
-
+class Repl
+	def run():
+		while True:
+			print('>', end='')
+			#if "nameLastAddTask" : #print(TasksDB.last_id, TasksDB.tasks_list[0].name)
+	
+	
 TasksDB = TasksDB_t()
 TasksDB.addTask("get this", True, 5)
 
-print(TasksDB.last_id, TasksDB.tasks_list[0].name)
+#print(TasksDB.last_id, TasksDB.tasks_list[0].name)
+
+Repl().run()
