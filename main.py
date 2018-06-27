@@ -1,31 +1,47 @@
-import pickle
+п»їimport pickle
+import datetime
 
-class TasksDB_t: #экземпляр этого класса будет один на всю программу (если я не захочу одновременно открывать несколько БД)
+class TasksDB_t: #model #СЌРєР·РµРјРїР»СЏСЂ СЌС‚РѕРіРѕ РєР»Р°СЃСЃР° Р±СѓРґРµС‚ РѕРґРёРЅ РЅР° РІСЃСЋ РїСЂРѕРіСЂР°РјРјСѓ (РµСЃР»Рё СЏ РЅРµ Р·Р°С…РѕС‡Сѓ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ РѕС‚РєСЂС‹РІР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ Р‘Р”)
 	def __init__(self):
 		self.tasks_list = []
 		self.last_id = 0
+		
+		self.tasks_done_history = [] # [(id, РґР°С‚Р°-РІСЂРµРјСЏ)]
 	
-	def addTask(self, name, isEveryday, reward):
+	def addTask(self, name, isEveryday, reward, mulct=0):
 		self.last_id+=1
-		self.tasks_list.append( Task(self.last_id, name, isEveryday, reward) )
+		self.tasks_list.append( Task(self.last_id, name, isEveryday, reward, mulct) )
+		
+	def doneTask(self, id):
+		# Р•СЃР»Рё СЌС‚Р° Р·Р°РґР°С‡Р° Everyday, С‚Рѕ РїСЂРѕРІРµСЂСЏС‚СЊ РЅРµ Р±С‹Р»Р° Р»Рё РѕРЅР° СѓР¶Рµ РІС‹РїРѕР»РЅРµРЅР°
+		self.tasks_done_history.append( (id, datetime.datetime.now()) )
 		
 	def testDB(self):
 		if len(self.tasks_list) <= self.last_id: print("Test 1 is OK :)")
-		else :  print("Error Test 1 >:(")
+		else: print("Error Test 1 >:(")
+		
+	#def save(self):
+
+	#def load(self):
+		#self = pickle.load(file) # Рђ С‚Р°Рє РІРѕРѕР±С‰Рµ РјРѕР¶РЅРѕ?
 
 class Task:
-	def __init__(self, id, name, isEveryday, reward):
+	def __init__(self, id, name, isEveryday, reward, mulct):
 		self.id = id
 		self.name = name
 		self.isEveryday = isEveryday
 		self.reward = reward
+		self.mulct = mulct #fine - С€СЂР°С„
 
 fileWriteName = "TasksDB"
 #commands_list = ["nlat", "exit"]
 
-class Repl:
+class Repl: #view and controller
 	def __init__(self):
 		self.TasksDB = TasksDB_t()
+		#-------------
+		self.TasksDB.addTask("qwee", reward=6, isEveryday=False)
+		#-------------
 
 	def run(self):
 		isExit = False
@@ -39,11 +55,19 @@ class Repl:
 				else:
 					print("Tasks list is empty!")
 
-			elif input_command=="exit":
+			elif input_command=="list" :
+				if len(self.TasksDB.tasks_list) != 0 :
+					print("id, name, isEveryday, reward, mulct")
+					print("----------------------------")
+					for item in self.TasksDB.tasks_list:
+						print(item.id, "'",item.name, "'", item.isEveryday, item.reward, item.mulct)
+				else:
+					print("Tasks list is empty!")
+
+			elif input_command=="exit" or input_command=="q":
 				isExit = True
 
 			elif input_command=="save":
-				#file = open(fileWriteName, 'wb')
 				with open(fileWriteName, 'wb') as file:
 					pickle.dump(self.TasksDB, file)
 					file.close()
@@ -52,6 +76,11 @@ class Repl:
 				with open(fileWriteName, 'rb') as file:
 					self.TasksDB = pickle.load(file)
 					file.close()
+					
+			elif input_command=="add":
+				pass
+			elif input_command=="del":
+				pass
 
 			else:
 				print("Unknown command!")
