@@ -15,17 +15,39 @@ class Task:
 		self.name = name
 		self.isEveryday = isEveryday
 		self.reward = reward
-	
-class Repl
-	def run():
-		while True:
-			print('>', end='')
-			#if "nameLastAddTask" : #print(TasksDB.last_id, TasksDB.tasks_list[0].name)
-	
-	
-TasksDB = TasksDB_t()
-TasksDB.addTask("get this", True, 5)
 
-#print(TasksDB.last_id, TasksDB.tasks_list[0].name)
+fileWriteName = "TasksDB"
+class Repl:
+	
+	def __init__(self):
+	#---
+		self.TasksDB = TasksDB_t()
+		self.TasksDB.addTask("get this", True, 5)
+	#---
+	#print(TasksDB.last_id, TasksDB.tasks_list[0].name)
+	
+	#commands_list = ["nlat", "exit"]
+	
+	
+	def run(self):
+		isExit = False
+		while not isExit:
+			#print('>', end='')
+			input_command = input(">")
+			if input_command=="nlat" : #nameLastAddTask
+				print(self.TasksDB.last_id, self.TasksDB.tasks_list[0].name)
+			elif input_command=="exit":
+				isExit = True
+			elif input_command=="read":
+				pass
+			elif input_command=="write":
+				#f = open(fileWriteName, 'w')
+				#f.write(self.TasksDB);
+				pass
+			else:
+				print("Unknown command!")
+				#print(commands_list)
+	
 
-Repl().run()
+if __name__ == "__main__":
+	Repl().run()
