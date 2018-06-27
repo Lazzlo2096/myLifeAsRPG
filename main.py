@@ -1,5 +1,8 @@
 ﻿import pickle
-import datetime
+import datetime #datetime.datetime.now()
+
+#1. синх в гугл диск
+#GUI
 
 class TasksDB_t: #model #экземпляр этого класса будет один на всю программу (если я не захочу одновременно открывать несколько БД)
 	def __init__(self):
@@ -13,7 +16,7 @@ class TasksDB_t: #model #экземпляр этого класса будет �
 		self.tasks_list.append( Task(self.last_id, name, isEveryday, reward, mulct) )
 		
 	def doneTask(self, id):
-		# Если эта задача Everyday, то проверять не была ли она уже выполнена
+		# Если эта задача Everyday, то проверять не была ли она уже выполнена сегодня
 		self.tasks_done_history.append( (id, datetime.datetime.now()) )
 		
 	def testDB(self):
@@ -32,6 +35,7 @@ class Task:
 		self.isEveryday = isEveryday
 		self.reward = reward
 		self.mulct = mulct #fine - шраф
+		#verision ?
 
 fileWriteName = "TasksDB"
 #commands_list = ["nlat", "exit"]
@@ -39,8 +43,9 @@ fileWriteName = "TasksDB"
 class Repl: #view and controller
 	def __init__(self):
 		self.TasksDB = TasksDB_t()
-		#-------------
+		#-------типа иниц БД------
 		self.TasksDB.addTask("qwee", reward=6, isEveryday=False)
+		self.TasksDB.doneTask(1)
 		#-------------
 
 	def run(self):
@@ -63,6 +68,15 @@ class Repl: #view and controller
 						print(item.id, "'",item.name, "'", item.isEveryday, item.reward, item.mulct)
 				else:
 					print("Tasks list is empty!")
+			
+			elif input_command=="hist" :
+				if len(self.TasksDB.tasks_done_history) != 0 :
+					print("id, time")
+					print("--------")
+					for item in self.TasksDB.tasks_done_history:
+						print(item[0], str(item[1]))
+				else:
+					print("tasks_done_history is empty!")
 
 			elif input_command=="exit" or input_command=="q":
 				isExit = True
