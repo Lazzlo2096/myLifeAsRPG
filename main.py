@@ -1,5 +1,6 @@
+import pickle
 
-class TasksDB_t: #СЌРєР·РµРјРїР»СЏСЂ СЌС‚РѕРіРѕ РєР»Р°СЃСЃР° Р±СѓРґРµС‚ РѕРґРёРЅ РЅР° РІСЃСЋ РїСЂРѕРіСЂР°РјРјСѓ (РµСЃР»Рё СЏ РЅРµ Р·Р°С…РѕС‡Сѓ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ РѕС‚РєСЂС‹РІР°С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ Р‘Р”)
+class TasksDB_t: #экземпляр этого класса будет один на всю программу (если я не захочу одновременно открывать несколько БД)
 	def __init__(self):
 		self.tasks_list = []
 		self.last_id = 0
@@ -8,6 +9,9 @@ class TasksDB_t: #СЌРєР·РµРјРїР»СЏСЂ СЌС‚РѕРіРѕ РєР»Р°СЃСЃР° Р±СѓРґРµС‚ РѕРґРёРЅ
 		self.last_id+=1
 		self.tasks_list.append( Task(self.last_id, name, isEveryday, reward) )
 		
+	def testDB(self):
+		if len(self.tasks_list) <= self.last_id: print("Test 1 is OK :)")
+		else :  print("Error Test 1 >:(")
 
 class Task:
 	def __init__(self, id, name, isEveryday, reward):
@@ -17,37 +21,41 @@ class Task:
 		self.reward = reward
 
 fileWriteName = "TasksDB"
+#commands_list = ["nlat", "exit"]
+
 class Repl:
-	
 	def __init__(self):
-	#---
 		self.TasksDB = TasksDB_t()
-		self.TasksDB.addTask("get this", True, 5)
-	#---
-	#print(TasksDB.last_id, TasksDB.tasks_list[0].name)
-	
-	#commands_list = ["nlat", "exit"]
-	
-	
+
 	def run(self):
 		isExit = False
 		while not isExit:
 			#print('>', end='')
 			input_command = input(">")
+
 			if input_command=="nlat" : #nameLastAddTask
-				print(self.TasksDB.last_id, self.TasksDB.tasks_list[0].name)
+				if len(self.TasksDB.tasks_list) != 0:
+					print(self.TasksDB.last_id, self.TasksDB.tasks_list[0].name)
+				else:
+					print("Tasks list is empty!")
+
 			elif input_command=="exit":
 				isExit = True
-			elif input_command=="read":
-				pass
-			elif input_command=="write":
-				#f = open(fileWriteName, 'w')
-				#f.write(self.TasksDB);
-				pass
+
+			elif input_command=="save":
+				#file = open(fileWriteName, 'wb')
+				with open(fileWriteName, 'wb') as file:
+					pickle.dump(self.TasksDB, file)
+					file.close()
+
+			elif input_command=="load":
+				with open(fileWriteName, 'rb') as file:
+					self.TasksDB = pickle.load(file)
+					file.close()
+
 			else:
 				print("Unknown command!")
 				#print(commands_list)
 	
-
 if __name__ == "__main__":
 	Repl().run()
