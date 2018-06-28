@@ -17,7 +17,7 @@ class TasksSqliteDB_class:
 		#=========
 		
 		# self.tasks_list = []
-		self.last_id = 0
+		self.last_id = 0 #некоректный счётчик после загрузки ДБ с уже имеющимися записями!!!
 		# self.tasks_done_history = [] # [(task_id, дата-время)]
 
 	def __del__(self):
@@ -28,12 +28,13 @@ class TasksSqliteDB_class:
 		
 		# Insert a row of data
 		self.cursor.execute("INSERT INTO tasks VALUES (?,?,?,?,?)", (self.last_id, name, isEveryday, reward, mulct))
+		self.last_id+=1
 		
 		# Save (commit) the changes
 		self.conn.commit()
 		
-		self.last_id+=1
-		# self.tasks_list.append( Task(self.last_id, name, isEveryday, reward, mulct) )
+
+
 		
 		
 		
@@ -86,6 +87,7 @@ class TasksSqliteDB_class:
 		self.cursor.execute('SELECT * FROM done_tasks_history')
 		return self.cursor.fetchall()
 		
+
 def _showListLn(results):
 	if len(results) != 0 :
 		for item in results:
@@ -93,11 +95,11 @@ def _showListLn(results):
 	else:
 		print("This list is empty!")
 
-
 # TasksSqliteDB = TasksSqliteDB_class('TasksDB.db')
-# TasksSqliteDB.addTask("qwer22rr", True, 777)
-# TasksSqliteDB.addTask("qwe33r", True, 77544)
-# TasksSqliteDB.doneTask(1)
+# TasksSqliteDB.addTask("qwer22rr", True, 2)
+# TasksSqliteDB.addTask("Just do it!", True, 777)
+# TasksSqliteDB.addTask("Something1", False, 5)
+# TasksSqliteDB.doneTask(0)
 
 # TasksSqliteDB._show()
 # _showListLn(TasksSqliteDB.getTasksList())

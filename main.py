@@ -1,11 +1,13 @@
 ﻿import pickle
-from TasksDB_t import TasksDB_t #import TasksDB_t
+#from TasksDB_t import TasksDB_t #import TasksDB_t
+from TasksSqliteDB_class import TasksSqliteDB_class
 
 # 1.SQlite
 # синх в гугл диск (Можно пока просто юзать папку клиента)
 # 2.GUI
 
 fileWriteName = "TasksDB"
+TasksSqliteDBFileName = "TasksDB.db"
 #commands_list = ["nlat", "exit"]
 
 def showListLn(list):
@@ -17,10 +19,14 @@ def showListLn(list):
 
 class Repl: #view and controller
 	def __init__(self):
-		self.TasksDB = TasksDB_t()
+		self.TasksDB = TasksSqliteDB_class(TasksSqliteDBFileName)
 		#-------типа иниц БД------
-		self.TasksDB.addTask("qwee", reward=6, isEveryday=False)
-		self.TasksDB.doneTask(1)
+		# self.TasksDB = TasksSqliteDB_class('TasksDB.db')
+		# self.TasksDB.addTask("qwer22rr", True, 2)
+		# self.TasksDB.addTask("Just do it!", True, 777)
+		# self.TasksDB.addTask("Something1", False, 5)
+		# self.TasksDB.addTask("qwee", reward=6, isEveryday=False)
+		# self.TasksDB.doneTask(0)
 		#-------------
 
 	def run(self):
@@ -29,47 +35,41 @@ class Repl: #view and controller
 			#print('>', end='')
 			input_command = input(">")
 
-			if input_command=="nlat" : #nameLastAddTask
-				if len(self.TasksDB.tasks_list) != 0:
-					print(self.TasksDB.last_id, self.TasksDB.tasks_list[0].name)
-				else:
-					print("Tasks list is empty!")
-
-			elif input_command=="list" :
-				#showListLn(self.TasksDB.getTasksList())
-				
-				if len(self.TasksDB.tasks_list) != 0 :
-					print("id, name, isEveryday, reward, mulct")
-					print("----------------------------")
-					for item in self.TasksDB.tasks_list:
-						print(item.id, "'",item.name, "'", item.isEveryday, item.reward, item.mulct)
-				else:
-					print("Tasks list is empty!")
+			if input_command=="tasks_list" :
+				print("task_id, name, isEveryday, reward, mulct")
+				print("----------------------------")
+				showListLn(self.TasksDB.getTasksList())
 			
-			elif input_command=="hist" :
-				if len(self.TasksDB.tasks_done_history) != 0 :
-					print("id, time")
-					print("--------")
-					for item in self.TasksDB.tasks_done_history:
-						print(item[0], str(item[1]))
-				else:
-					print("tasks_done_history is empty!")
+			elif input_command=="history" :
+				print("task_id, time")
+				print("--------")
+				showListLn(self.TasksDB.getDoneTasksHistory())
 
 			elif input_command=="exit" or input_command=="q":
 				isExit = True
 
 			elif input_command=="save":
-				with open(fileWriteName, 'wb') as file:
-					pickle.dump(self.TasksDB, file)
-					file.close()
+				# with open(fileWriteName, 'wb') as file:
+					# pickle.dump(self.TasksDB, file)
+					# file.close()
+				pass
 
 			elif input_command=="load":
-				with open(fileWriteName, 'rb') as file:
-					self.TasksDB = pickle.load(file)
-					file.close()
+				# with open(fileWriteName, 'rb') as file:
+					# self.TasksDB = pickle.load(file)
+					# file.close()
+				pass
 					
 			elif input_command=="add":
-				pass
+				#Вот тут опастность вводе некоректных данных!
+				print("Add new task:")
+				name = input("name=")
+				isEveryday = input("isEveryday(0/1)=") # как sqlite допустил ввод текста в Integer???
+				reward = input("reward=")
+				mulct = input("mulct=")
+				
+				self.TasksDB.addTask(name, isEveryday, reward, mulct)
+				
 			elif input_command=="del":
 				pass
 
