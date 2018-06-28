@@ -2,13 +2,13 @@
 #from TasksDB_t import TasksDB_t #import TasksDB_t
 from TasksSqliteDB_class import TasksSqliteDB_class
 
-# 1.SQlite
+# 1.SQlite (а может что-то другое?)
 # синх в гугл диск (Можно пока просто юзать папку клиента)
 # 2.GUI
 
 fileWriteName = "TasksDB"
 TasksSqliteDBFileName = "TasksDB.db"
-#commands_list = ["nlat", "exit"]
+commands_list = ["tasks_list", "history", "save", "load", "add", "del", "exit"]
 
 def showListLn(list):
 	if len(list) != 0 :
@@ -21,12 +21,15 @@ class Repl: #view and controller
 	def __init__(self):
 		self.TasksDB = TasksSqliteDB_class(TasksSqliteDBFileName)
 		#-------типа иниц БД------
-		# self.TasksDB = TasksSqliteDB_class('TasksDB.db')
 		# self.TasksDB.addTask("qwer22rr", True, 2)
 		# self.TasksDB.addTask("Just do it!", True, 777)
 		# self.TasksDB.addTask("Something1", False, 5)
 		# self.TasksDB.addTask("qwee", reward=6, isEveryday=False)
 		# self.TasksDB.doneTask(0)
+		
+		# showListLn(self.TasksDB.getTasksList())
+		# print("====")
+		# showListLn(self.TasksDB.getDoneTasksHistory())
 		#-------------
 
 	def run(self):
@@ -42,7 +45,7 @@ class Repl: #view and controller
 			
 			elif input_command=="history" :
 				print("task_id, time")
-				print("--------")
+				print("-------------")
 				showListLn(self.TasksDB.getDoneTasksHistory())
 
 			elif input_command=="exit" or input_command=="q":
@@ -61,10 +64,10 @@ class Repl: #view and controller
 				pass
 					
 			elif input_command=="add":
-				#Вот тут опастность вводе некоректных данных!
+				#Вот тут опастность ввода некоректных данных!
 				print("Add new task:")
 				name = input("name=")
-				isEveryday = input("isEveryday(0/1)=") # как sqlite допустил ввод текста в Integer???
+				isEveryday = input("isEveryday(0/1)=") # как sqlite допускает ввод текста в Integer???
 				reward = input("reward=")
 				mulct = input("mulct=")
 				
@@ -75,7 +78,7 @@ class Repl: #view and controller
 
 			else:
 				print("Unknown command!")
-				#print(commands_list)
+				print(commands_list)
 	
 if __name__ == "__main__":
 	Repl().run()

@@ -62,23 +62,6 @@ class TasksSqliteDB_class:
 	#def load(self):
 		#self = pickle.load(file) # А так вообще можно?
 
-	def _show(self): # можно(нужно? !) отправлять (в RAM) в View
-		task_id = 0
-		t = (task_id,)
-		self.cursor.execute('SELECT * FROM tasks')
-		
-		# Получаем результат сделанного запроса
-		#print(self.cursor.fetchone())
-		results = self.cursor.fetchall()
-		#results2 =  cursor.fetchall() #[]
-		if len(results) != 0 :
-			print("id, name, isEveryday, reward, mulct")
-			print("-----------------------------------")
-			for item in results:
-				print(item)
-		else:
-			print("Tasks list is empty!")
-			
 	def getTasksList(self):
 		self.cursor.execute('SELECT * FROM tasks')
 		return self.cursor.fetchall()
@@ -94,14 +77,3 @@ def _showListLn(results):
 			print(item)
 	else:
 		print("This list is empty!")
-
-# TasksSqliteDB = TasksSqliteDB_class('TasksDB.db')
-# TasksSqliteDB.addTask("qwer22rr", True, 2)
-# TasksSqliteDB.addTask("Just do it!", True, 777)
-# TasksSqliteDB.addTask("Something1", False, 5)
-# TasksSqliteDB.doneTask(0)
-
-# TasksSqliteDB._show()
-# _showListLn(TasksSqliteDB.getTasksList())
-# print("====")
-# _showListLn(TasksSqliteDB.getDoneTasksHistory())
