@@ -8,6 +8,13 @@ from TasksDB_t import TasksDB_t #import TasksDB_t
 fileWriteName = "TasksDB"
 #commands_list = ["nlat", "exit"]
 
+def showListLn(list):
+	if len(list) != 0 :
+		for item in list:
+			print(item)
+	else:
+		print("This list is empty!")
+
 class Repl: #view and controller
 	def __init__(self):
 		self.TasksDB = TasksDB_t()
@@ -29,6 +36,8 @@ class Repl: #view and controller
 					print("Tasks list is empty!")
 
 			elif input_command=="list" :
+				#showListLn(self.TasksDB.getTasksList())
+				
 				if len(self.TasksDB.tasks_list) != 0 :
 					print("id, name, isEveryday, reward, mulct")
 					print("----------------------------")
