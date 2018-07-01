@@ -25,7 +25,11 @@ def tasks_list():
 @app.route("/post_test", methods=["POST","GET"])
 def post_test():
 	if request.method == "POST":
-		return render_template("hello.html")
+	
+		TasksDB.doneTask(int(request.form['submit']))
+		
+		return redirect(url_for("doneTasksHistory")) 
+		#return render_template("hello.html")
 
 @app.route("/tasks_list_")
 def tasks_list_():

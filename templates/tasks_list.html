@@ -4,7 +4,7 @@
 		<a href = "/">Go back to home page</a>
 		<div>Повторяющиеся задачи:</div>
 		<form action="{{ url_for('post_test') }}" method="POST">
-		<table border = 0>
+		<table border = 1>
 			<thead>
 			{% for title in titles %}
 				<td>{{title}}</td>
@@ -16,7 +16,7 @@
 				{% for item in row %}
 					<td>{{item}}</td>
 				{% endfor %}
-				<td><input type="image" src="/static/done1.png" width="25" height="25" /></td>
+				<td><input type="image" name="submit" value="{{ row[0] }}" src="/static/done1.png" width="25" height="25" /></td>
 				</tr>
 			{% endfor %}
 		</table>
