@@ -1,10 +1,11 @@
+# -*- coding: utf-8
 import sqlite3 #https://docs.python.org/3/library/sqlite3.html
 import datetime #datetime.datetime.now()
 
 class TasksSqliteDB_class:
 	def __init__(self, nameSqlDb):
 	
-		self.conn = sqlite3.connect(nameSqlDb)
+		self.conn = sqlite3.connect(nameSqlDb, check_same_thread=False) #check_same_thread=False - потому что вне FlaskApp'a не работает
 		self.cursor = self.conn.cursor()
 		
 		#====типа иниц ия====
