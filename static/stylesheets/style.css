@@ -1,0 +1,58 @@
+#content > div,form {
+    text-align: left;
+    margin: 0em auto;
+    padding: 0 10px;
+    /*width: 760px;*/
+    width: 640px;
+}
+
+#food {
+  background: green;
+}
+p {
+  background: orange;
+}
+
+#content textarea {
+    /*background-color: #ffface;*/
+    /*background-color: #ddd;*/
+    background-color: #eee;
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+    font-family: "Lucida Console", Monaco, monospace;
+    height: 250px;
+    margin-bottom: 1em;
+    border: none;
+    box-shadow: none;
+    /*background: #ffface*/ /*url(legacy/privnote-page-flip-30.png) no-repeat bottom right;*/
+}
+
+#content input, label {
+    /*background-color: #ffface;*/
+    width: 100%;
+    max-width: 100%;
+    font-size: 0.9rem;
+    font-family: "Lucida Console", Monaco, monospace;
+
+    /*margin-bottom: 1em;*/
+    /*border: none;*/
+    box-shadow: none;
+    /*background: #ffface url(legacy/privnote-page-flip-30.png) no-repeat bottom right;*/
+}
+
+#content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+
+.right {
+    float: right;
+}
+
+.col {
+    float: left;
+    /*display: block;*/
+    /*margin: 0 0 0 1.6%;*/
+}
