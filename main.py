@@ -26,7 +26,7 @@ def tasks_list():
 def post_test():
 	if request.method == "POST":
 	
-		TasksDB.doneTask(int(request.form['submit']))
+		TasksDB.doneTask( int(request.form['submit']) )
 		
 		return redirect(url_for("doneTasksHistory")) 
 		#return render_template("hello.html")
