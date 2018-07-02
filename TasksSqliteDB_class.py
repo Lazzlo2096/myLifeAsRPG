@@ -63,13 +63,17 @@ class TasksSqliteDB_class:
 	#def load(self):
 		#self = pickle.load(file) # А так вообще можно?
 
-	def getTasksList(self):
+	def _getTasksList(self):
 		self.cursor.execute('SELECT * FROM tasks')
 		return self.cursor.fetchall()
 		
-	def getDoneTasksHistory(self):
+	def _getDoneTasksHistory(self):
 		self.cursor.execute('SELECT * FROM done_tasks_history')
 		return self.cursor.fetchall()
+		
+	def getTable(self, tableName):
+		self.cursor.execute( "SELECT * FROM {}".format(tableName) ) # НО наверно это опасно??
+		return [ n[0] for n in list(self.cursor.description) ], self.cursor.fetchall() #получаем список имён столбцов и сами записи
 		
 
 def _showListLn(results):

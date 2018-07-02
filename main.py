@@ -16,11 +16,12 @@ app = Flask(__name__)
 def index():
 	return render_template("index.html")
 	
-@app.route("/tasks_list")
+@app.route("/tasks_list") #тут можно выполнить задания
 def tasks_list():
-	titles = ["name"]
-	rows = TasksDB.getTasksList()
+	#titles, rows = TasksDB.getTable("isEveryday") # НО НУЖНО ЧТОБ ТУТ БЫЛО а ля 'isEvrdy and not done today'
+	titles, rows = TasksDB.getTable("'isEvrdy and not done today'")
 	return render_template("tasks_list.html", rows=rows, titles=titles)
+
 	
 @app.route("/post_test", methods=["POST","GET"])
 def post_test():
@@ -28,19 +29,26 @@ def post_test():
 	
 		TasksDB.doneTask( int(request.form['submit']) )
 		
-		return redirect(url_for("doneTasksHistory")) 
+		
 		#return render_template("hello.html")
+		#return redirect(url_for("show_table", table_name="'isEvrdy and not done today'")) # НО НУЖНО чтобы он редиректил на сам себя tasks_list, то есть прост ообнавлял страничку
+		return redirect(url_for("tasks_list")) # НО можно ли чтобы он просто рефрешился?
 
-@app.route("/tasks_list_")
-def tasks_list_():
-	titles = ["task_id", "name", "isEveryday", "reward", "mulct"]
-	rows = TasksDB.getTasksList()
+#============
+#done_tasks_history
+#tasks
+#'names of done tasks'
+#'isEvrdy and not done today'
+#isEveryday
+@app.route("/show_table/<string:table_name>")
+def show_table(table_name):
+	titles, rows = TasksDB.getTable( table_name )
 	return render_template("list.html", rows=rows, titles=titles)
+#=========
 	
-@app.route("/history")
-def doneTasksHistory():
-	titles = ["task_id", "date"]
-	rows = TasksDB.getDoneTasksHistory()
+@app.route("/_history")
+def _history():
+	titles, rows = TasksDB.getTable("'names of done tasks'")
 	return render_template("list.html", rows=rows, titles=titles)
 
 if __name__=="__main__" :
