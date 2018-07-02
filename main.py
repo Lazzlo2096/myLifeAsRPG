@@ -18,23 +18,20 @@ def index():
 	
 @app.route("/tasks_list") #тут можно выполнить задания
 def tasks_list():
-	#titles, rows = TasksDB.getTable("isEveryday") # НО НУЖНО ЧТОБ ТУТ БЫЛО а ля 'isEvrdy and not done today'
-	titles, rows = TasksDB.getTable("'isEvrdy and not done today'")
+	titles, rows = TasksDB.getTable("'isEvrdy and not done today'") # НО НУЖНО ЧТОБ ТУТ БЫЛО а ля не так длинно..
 	return render_template("tasks_list.html", rows=rows, titles=titles)
-
 	
-@app.route("/post_test", methods=["POST","GET"])
-def post_test():
+@app.route("/post_done", methods=["POST","GET"])
+def post_done():
 	if request.method == "POST":
 	
 		TasksDB.doneTask( int(request.form['submit']) )
 		
-		
 		#return render_template("hello.html")
 		#return redirect(url_for("show_table", table_name="'isEvrdy and not done today'")) # НО НУЖНО чтобы он редиректил на сам себя tasks_list, то есть прост ообнавлял страничку
-		return redirect(url_for("tasks_list")) # НО можно ли чтобы он просто рефрешился?
+		return redirect(url_for("tasks_list")) # НО можно ли чтобы он просто рефрешился? - вроде нет
 
-#============
+#===========
 #done_tasks_history
 #tasks
 #'names of done tasks'
@@ -44,7 +41,7 @@ def post_test():
 def show_table(table_name):
 	titles, rows = TasksDB.getTable( table_name )
 	return render_template("list.html", rows=rows, titles=titles)
-#=========
+#===========
 	
 @app.route("/_history")
 def _history():
