@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-	return render_template("index.html")
+	return render_template("index_old.html")
 	
 @app.route("/tasks_list") #тут можно выполнить задания
 def tasks_list():
