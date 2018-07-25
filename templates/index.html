@@ -17,16 +17,16 @@
                     <li><a href="https://zhuanlan.zhihu.com/flask" target="_blank">Hello, Flask!</a></li>
                     <li><a href="http://greyli.com" target="_blank">Blog</a></li>
                     <li><a href="https://github.com/helloflask/todo" target="_blank">Github</a></li>
-                    <li><a class="waves-effect waves-light btn red signin">登录/注册</a></li>
+                    <li><a class="waves-effect waves-light btn red signin">log in/registered</a></li>
                 </ul>
 
                 <ul id="nav-mobile" class="side-nav">
-                    <li><a href="{{ url_for('category', id=1) }}">收件箱</a></li>
-                    <li><a href="{{ url_for('category', id=2) }}">已完成</a></li>
+                    <li><a href="{{ url_for('category', id=1) }}">inbox.HTML</a></li>
+                    <li><a href="{{ url_for('category', id=2) }}">completed.HTML</a></li>
                     <li><a href="https://zhuanlan.zhihu.com/flask" target="_blank">Hello, Flask!</a></li>
                     <li><a href="http://withlihui.com" target="_blank">Blog</a></li>
                     <li><a href="https://github.com/helloflask/todo" target="_blank">Github</a></li>
-                    <li><a class="waves-effect waves-light btn red signin">登录/注册</a></li>
+                    <li><a class="waves-effect waves-light btn red signin">log in/registered</a></li>
                 </ul>
                 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             </div>
@@ -43,7 +43,7 @@
                     <div class="input-field col s4 m4">
                         <select id="category-select" name="category">
                             {% if category_now.id == 2 %}
-                            <option value="" selected disabled>选择分类</option>
+                            <option value="" selected disabled>Choose category</option>
                             {% else %}
                             <option value="{{ category_now.id }}" selected>{{ category_now.name }}</option>
                             {% endif %}
@@ -55,7 +55,7 @@
                         </select>
                     </div>
                     <div class="input-field col s8 m8">
-                        <input class="validate" id="item-input" type="text" name="item" placeholder="去超市买两个苹果~"
+                        <input class="validate" id="item-input" type="text" name="item" placeholder="Go to the supermarket and buy two apples~"
                         onkeydown="if (event.keyCode == 13) document.getElementById('new-item').click()">
                         <a class="waves-effect waves-light btn input-field right" id="new-item" href="#"><i class="material-icons right">add</i>OK</a>
                     </div><br>
@@ -66,9 +66,9 @@
         <div class="row">
             <div class="col s12 m4 l4">
                 <div class="right-align nav-button">
-                    <a class="waves-effect waves-light btn blue center-align" href="{{ url_for('category', id=1) }}"><i class="material-icons left">email</i>收件箱 {{ categories[0].items|length }}</a>
+                    <a class="waves-effect waves-light btn blue center-align" href="{{ url_for('category', id=1) }}"><i class="material-icons left">email</i>inbox.HTML {{ categories[0].items|length }}</a>
                     <br><br>
-                    <a class="waves-effect waves-light btn green center-align" href="{{ url_for('category', id=2) }}"><i class="material-icons left">done</i>已完成 {{ categories[1].items|length }}</a>
+                    <a class="waves-effect waves-light btn green center-align" href="{{ url_for('category', id=2) }}"><i class="material-icons left">done</i>completed.HTML {{ categories[1].items|length }}</a>
                     <br><br>
                 </div>
                 <div class="row">
@@ -84,8 +84,8 @@
                 <div class="row">
                 <div class="col s6 m8 l6 right" >
                     <form id="add-category-form" action="{{ url_for('new_category') }}" method="POST">
-                        <input class="validate" placeholder="新分类？" name="name" id="category-input" type="text">
-                        <a class="waves-effect waves-light btn small right" id="new-category" href="#!">添加</a>
+                        <input class="validate" placeholder="New classification" name="name" id="category-input" type="text">
+                        <a class="waves-effect waves-light btn small right" id="new-category" href="#!">Add</a>
                     </form>
                 </div>
                     </div>

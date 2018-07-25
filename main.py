@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8
 from flask import Flask, render_template, request
 from flask import redirect, url_for
+
 from TasksSqliteDB_class import TasksSqliteDB_class
 
 from flask_sqlalchemy import SQLAlchemy
@@ -15,14 +16,21 @@ from flask_sqlalchemy import SQLAlchemy
 #4. +таблица наград
 #5. кнопка+форма добавления ежндн тасков
 #6. напоминания[комп и\или телефон] + автозапуск
-#7. красоты
+
+#7. красоты==
+# Перевести надписи на кнопках HTML на англ или сдеать локализацию..
+# Убрать всё-всё лишнее
+# Сломался счётчик тасков
+
+#Зачем мне нужен файл Views.sql ?
 
 TasksSqliteDBFileName = "test.db"
-TasksDB = TasksSqliteDB_class(TasksSqliteDBFileName)
+##TasksDB = TasksSqliteDB_class(TasksSqliteDBFileName)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///./"+TasksSqliteDBFileName
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///./"+TasksSqliteDBFileName #Почеему тут /// , а не две или 4ре?
 # app.config['DEBUG'] = True
+
 db = SQLAlchemy(app)
 
 #+=+=+=+=+=+=+=+=+=after merging=+=+=+=+=+=+=+=+=+=
@@ -43,31 +51,34 @@ class Done_tasks_history(db.Model):
 	task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'))
 	date = db.Column(db.Text)
 	
-# ++++++
-
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     tasks = db.relationship('Tasks', backref='category')
 
 # only for local test
+# Для того чтобы создать БД надо раскоментировать
 @app.before_first_request
 def init_db():
     """Insert default categories and demo items.
     """
     db.create_all()
-    inbox = Category(name=u'收件箱')
-    done = Category(name=u'已完成')
-    shopping_list = Category(name=u'购物清单')
-    work = Category(name=u'工作')
-    item = Tasks(body=u'看一小时《战争与和平》')
-    item2 = Tasks(body=u'晒太阳')
-    item3 = Tasks(body=u'写作练习30分钟')
-    item4 = Tasks(body=u'3瓶牛奶', category=shopping_list)
-    item5 = Tasks(body=u'5个苹果', category=shopping_list)
-    item6 = Tasks(body=u'12支铅笔', category=shopping_list)
-    item7 = Tasks(body=u'浇花', category=done)
+	
+    inbox = Category(name=u'Inbox')
+    done = Category(name=u'Completed')
+    shopping_list = Category(name=u'Shopping list')
+    work = Category(name=u'Work')
+	
+    item = Tasks(body=u'Watch an hour of War and Peace')
+    item2 = Tasks(body=u'Sunbathing')
+    item3 = Tasks(body=u'Writing practice 30 minutes')
+    item4 = Tasks(body=u'3 bottles of milk', category=shopping_list)
+    item5 = Tasks(body=u'5 apples', category=shopping_list)
+    item6 = Tasks(body=u'12 pencils', category=shopping_list)
+    item7 = Tasks(body=u'Watering flowers', category=done)
     item8 = Tasks(body=u'完成demo', category=work)
+	
+	#? Почему только первых два? как то связано с дефолтным расположением, хз
     db.session.add_all([inbox, done, item, item2, item3, item4, item5, item6, item7, item8])
     db.session.commit()
 
