@@ -18,9 +18,9 @@ from flask_sqlalchemy import SQLAlchemy
 #6. напоминания[комп и\или телефон] + автозапуск
 
 #7. красоты==
-# Перевести надписи на кнопках HTML на англ или сдеать локализацию..
+# cдеать локализацию?
 # Убрать всё-всё лишнее
-# Сломался счётчик тасков
+# Сломался счётчик тасков!
 
 #Зачем мне нужен файл Views.sql ?
 
@@ -58,7 +58,7 @@ class Category(db.Model):
 
 # only for local test
 # Для того чтобы создать БД надо раскоментировать
-@app.before_first_request
+#@app.before_first_request
 def init_db():
     """Insert default categories and demo items.
     """
@@ -148,7 +148,7 @@ def index():
 @app.route('/category/<int:id>')
 def category(id):
     category = Category.query.get_or_404(id)
-    categories = Category.query.all()
+    categories = category.query.all() #Почему не работает!?
     tasks = category.tasks
     return render_template('index.html', items=tasks,
                            categories=categories, category_now=category)
